@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./shared/db/connect.js";
 import userAuthRoutes from "./user/routes/auth.routes.js";
+import userRoutes from "./user/routes/user.routes.js";
+
 
 dotenv.config();
 
@@ -13,6 +15,8 @@ connectDB();
 
 // routes
 app.use("/api/user", userAuthRoutes);
+app.use("/api/user", userRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 
