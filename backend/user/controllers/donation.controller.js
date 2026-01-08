@@ -41,3 +41,41 @@ export const getUserDonations = async (req, res) => {
     });
   }
 };
+
+export const updateDonationStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, paymentId } = req.body;
+
+    if (!["SUCCESS", "FAILED"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    if (status === "SUCCESS" && !paymentId) {
+      return res
+        .status(400)
+        .json({ message: "paymentId required for successful donation" });
+    }
+
+    const donation = await Donation.findOne({
+      _id: id,
+      user: req.user.userId,
+    });
+
+    if (!donation) {
+      return res.status(404).json({ message: "Donation not found" });
+    }
+
+    donation.status = status;
+    if (paymentId) donation.paymentId = paymentId;
+
+    await donation.save();
+
+    return res.status(200).json({
+      message: "Donation status updated",
+      donation,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error" });
+  }
+};
