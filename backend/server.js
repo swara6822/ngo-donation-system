@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./shared/db/connect.js";
 import userAuthRoutes from "./user/routes/auth.routes.js";
 import userRoutes from "./user/routes/user.routes.js";
-
+import donationRoutes from "./user/routes/donation.routes.js";
 
 dotenv.config();
 
@@ -16,7 +16,7 @@ connectDB();
 // routes
 app.use("/api/user", userAuthRoutes);
 app.use("/api/user", userRoutes);
-
+app.use("/api/user", donationRoutes);
 
 const PORT = process.env.PORT || 5000;
 
