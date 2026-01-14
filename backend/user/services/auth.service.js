@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import { User } from "../../shared/models/user.js";
 import { ROLES } from "../../shared/constants/roles.js";
+import jwt from "jsonwebtoken";
+
 
 export const createUser = async ({ name, email, password }) => {
   const existingUser = await User.findOne({ email });
